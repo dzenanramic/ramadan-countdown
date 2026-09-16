@@ -1,0 +1,216 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   RamadanCountdown — component stylesheet
+   Shared by the HTML snippet and the React component. Auto-extracted from the
+   verified ramadan-countdown.html, so the two never drift apart.
+
+   Only the rules Tailwind utilities cannot express cleanly live here: the
+   `--rc-*` token layer, the full-bleed unit grid, and the keyframes. Append
+   this file to your global stylesheet, or import it from the component.
+
+   Tokens are self-contained so the component never fights your theme. To
+   inherit ShadCN tokens instead, swap `var(--rc-surface)` for `hsl(var(--card))`
+   and so on in the rules below.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   COMPONENT STYLES  —  copy from here
+   Tokens are self-contained (`--rc-*`) so the component never fights the host
+   theme. To inherit ShadCN tokens instead, swap the var() references in the
+   markup for `bg-card text-card-foreground border-border` etc.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* Light (default) ---------------------------------------------------------- */
+.rc-root {
+  --rc-bg:            #f7f4ed;   /* page background (optional to use)        */
+  --rc-surface:       #ffffff;   /* card                                     */
+  --rc-fg:            #14171f;   /* primary text        16.3:1 on surface    */
+  --rc-muted:         #575e6d;   /* secondary text       6.5:1 on surface    */
+  --rc-line:          #e2dbcb;   /* hairline rules                           */
+  --rc-line-strong:   #cfc5af;   /* hairline, hovered                        */
+  --rc-accent:        #7a5b12;   /* brass — text 6.3:1, button bg 6.3:1      */
+  --rc-accent-soft:   #8f6c1a;   /* brass, hovered                           */
+  --rc-accent-fg:     #ffffff;   /* text on accent                           */
+  --rc-track:         #e6dfce;   /* progress track                           */
+
+  --rc-pad: 1.25rem;
+  --rc-radius: 2px;              /* set 12px+ for a softer, rounder house style */
+  --rc-font-display: ui-serif, Georgia, "Iowan Old Style", "Times New Roman", serif;
+  --rc-font-ar: "Noto Naskh Arabic", "KacstNaskh", "Geeza Pro", "Traditional Arabic", Tahoma, "Segoe UI", sans-serif;
+
+  color: var(--rc-fg);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Dark — two strategies, both supported ----------------------------------- */
+.rc-root[data-rc-theme="dark"],
+.dark .rc-root[data-rc-theme="auto"] {           /* ShadCN `darkMode: class`  */
+  --rc-bg:          #0a1020;
+  --rc-surface:     #101728;
+  --rc-fg:          #e9edf6;
+  --rc-muted:       #9aa6bc;
+  --rc-line:        #232d45;
+  --rc-line-strong: #33405c;
+  --rc-accent:      #d3af5e;
+  --rc-accent-soft: #e4c77b;
+  --rc-accent-fg:   #0a1020;
+  --rc-track:       #1b2438;
+  color-scheme: dark;
+}
+@media (prefers-color-scheme: dark) {             /* OS-driven theming        */
+  .rc-root[data-rc-theme="auto"] {
+    --rc-bg:          #0a1020;
+    --rc-surface:     #101728;
+    --rc-fg:          #e9edf6;
+    --rc-muted:       #9aa6bc;
+    --rc-line:        #232d45;
+    --rc-line-strong: #33405c;
+    --rc-accent:      #d3af5e;
+    --rc-accent-soft: #e4c77b;
+    --rc-accent-fg:   #0a1020;
+    --rc-track:       #1b2438;
+    color-scheme: dark;
+  }
+}
+/* An app locked to light while the OS is dark */
+.light .rc-root[data-rc-theme="auto"] {
+  --rc-bg: #f7f4ed; --rc-surface: #ffffff; --rc-fg: #14171f; --rc-muted: #575e6d;
+  --rc-line: #e2dbcb; --rc-line-strong: #cfc5af; --rc-accent: #7a5b12;
+  --rc-accent-soft: #8f6c1a; --rc-accent-fg: #ffffff; --rc-track: #e6dfce;
+  color-scheme: light;
+}
+
+/* Crimson/gold variant: one attribute, accent tokens only ------------------ */
+.rc-root[data-rc-accent="crimson"] {
+  --rc-accent: #9e2b22; --rc-accent-soft: #b1352b; --rc-accent-fg: #ffffff;
+  --rc-track: #ecdcd6;
+}
+.rc-root[data-rc-accent="crimson"][data-rc-theme="dark"],
+.dark .rc-root[data-rc-accent="crimson"][data-rc-theme="auto"] {
+  --rc-accent: #f0857e; --rc-accent-soft: #f5a29c; --rc-accent-fg: #2a0a08;
+  --rc-track: #3a1d1d;
+}
+@media (prefers-color-scheme: dark) {
+  .rc-root[data-rc-accent="crimson"][data-rc-theme="auto"] {
+    --rc-accent: #f0857e; --rc-accent-soft: #f5a29c; --rc-accent-fg: #2a0a08;
+    --rc-track: #3a1d1d;
+  }
+}
+
+/* Card -------------------------------------------------------------------- */
+.rc-card {
+  position: relative;
+  background: var(--rc-surface);
+  border: 1px solid var(--rc-line);
+  border-left: 3px solid var(--rc-accent);   /* the signature rail */
+  border-radius: var(--rc-radius);
+  padding: var(--rc-pad);
+  transition: border-color .22s ease, transform .22s ease, box-shadow .22s ease;
+}
+.rc-card:hover {
+  border-color: var(--rc-line-strong);
+  border-left-color: var(--rc-accent-soft);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 32px -24px rgb(0 0 0 / .55);
+}
+
+/* Unit grid: full-bleed hairline ruler ----------------------------------- */
+.rc-grid { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); margin-inline: calc(var(--rc-pad) * -1); }
+.rc-unit { padding: 1.35rem var(--rc-pad) 1.2rem; border-top: 1px solid var(--rc-line); }
+.rc-unit:nth-child(odd)  { border-right: 1px solid var(--rc-line); }
+.rc-unit:nth-child(-n+2) { border-top: 0; }
+@media (min-width: 640px) {
+  .rc-grid { grid-template-columns: repeat(4, minmax(0,1fr)); }
+  .rc-grid .rc-unit                  { border-top: 0; }
+  .rc-grid .rc-unit:nth-child(odd)   { border-right: 0; }
+  .rc-grid .rc-unit + .rc-unit       { border-left: 1px solid var(--rc-line); }
+}
+
+/* Digits ------------------------------------------------------------------ */
+.rc-num {
+  display: block;
+  font-size: clamp(2rem, 9vw, 3.5rem);
+  line-height: .95;
+  letter-spacing: -.03em;
+  font-weight: 500;
+}
+.rc-unit:first-child .rc-num { color: var(--rc-accent); }   /* days lead */
+.rc-unit .rc-label {
+  display: block; margin-top: .65rem;
+  font-size: 10px; font-weight: 600; letter-spacing: .16em; text-transform: uppercase;
+  color: var(--rc-muted);
+}
+.rc-ar { font-family: var(--rc-font-ar); font-size: 12px; letter-spacing: 0; text-transform: none; }
+
+/* Gentle digit change — a 4px rise, no flip-card theatrics ---------------- */
+@keyframes rc-rise { from { opacity: .4; transform: translateY(-.16em); } to { opacity: 1; transform: none; } }
+.rc-rise { animation: rc-rise .3s cubic-bezier(.22,.7,.24,1); }
+
+/* Progress ruler ---------------------------------------------------------- */
+.rc-track { position: relative; height: 2px; background: var(--rc-track); overflow: hidden; }
+.rc-fill  { height: 100%; width: 0; background: var(--rc-accent); transition: width .6s cubic-bezier(.22,.7,.24,1); }
+
+/* Controls ---------------------------------------------------------------- */
+.rc-select {
+  appearance: none;
+  background: transparent;
+  color: var(--rc-fg);
+  border: 1px solid var(--rc-line);
+  border-radius: var(--rc-radius);
+  font-size: 12px;
+  padding: .4rem 1.75rem .4rem .6rem;
+  cursor: pointer;
+  transition: border-color .2s ease;
+  background-image: linear-gradient(45deg, transparent 50%, currentColor 50%),
+                    linear-gradient(135deg, currentColor 50%, transparent 50%);
+  background-position: right 14px center, right 9px center;
+  background-size: 5px 5px, 5px 5px;
+  background-repeat: no-repeat;
+}
+.rc-select:hover { border-color: var(--rc-line-strong); }
+
+.rc-cta {
+  display: inline-flex; align-items: center; gap: .5rem;
+  background: var(--rc-accent); color: var(--rc-accent-fg);
+  border-radius: var(--rc-radius);
+  font-size: 13px; font-weight: 600;
+  padding: .6rem 1rem;
+  transition: background-color .2s ease, transform .2s ease;
+}
+.rc-cta:hover { background: var(--rc-accent-soft); }
+.rc-cta svg { transition: transform .22s cubic-bezier(.22,.7,.24,1); }
+.rc-cta:hover svg { transform: translateX(3px); }
+
+.rc-ghost {
+  font-size: 13px; color: var(--rc-muted);
+  border-bottom: 1px solid transparent;
+  transition: color .2s ease, border-color .2s ease;
+}
+.rc-ghost:hover { color: var(--rc-fg); border-bottom-color: var(--rc-accent); }
+
+.rc-mark { width: 6px; height: 6px; background: var(--rc-accent); flex: none; }
+
+/* Focus: visible, consistent, 5.7:1+ against both surfaces ---------------- */
+.rc-root :focus-visible {
+  outline: 2px solid var(--rc-accent);
+  outline-offset: 2px;
+  border-radius: var(--rc-radius);
+}
+.rc-root ::selection { background: var(--rc-accent); color: var(--rc-accent-fg); }
+
+/* No-JS: the static block is the content, the live grid is the enhancement - */
+.rc-live, .rc-js-only { display: none; }
+[data-rc-js="on"] .rc-live    { display: block; }
+[data-rc-js="on"] .rc-js-only { display: inline-flex; }
+[data-rc-js="on"] .rc-static  { display: none; }
+
+/* Reduced motion: keep the state changes, drop the movement ---------------- */
+@media (prefers-reduced-motion: reduce) {
+  .rc-rise { animation: none; }
+  .rc-card, .rc-cta, .rc-cta svg, .rc-fill, .rc-select, .rc-ghost {
+    transition: none;
+  }
+  .rc-card:hover { transform: none; }
+  .rc-cta:hover svg { transform: none; }
+}
+
+@media (min-width: 640px) { .rc-root { --rc-pad: 1.5rem; } }

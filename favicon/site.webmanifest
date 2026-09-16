@@ -1,0 +1,14 @@
+{
+  "name": "Ramazansko odbrojavanje",
+  "short_name": "Ramazan",
+  "description": "Odbrojavanje do ramazana 1448. h.g. za Bosnu i Hercegovinu.",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#f7f4ed",
+  "theme_color": "#101728",
+  "icons": [
+    { "src": "favicon.svg", "type": "image/svg+xml", "sizes": "any" },
+    { "src": "favicon-192.png", "type": "image/png", "sizes": "192x192" },
+    { "src": "apple-touch-icon.png", "type": "image/png", "sizes": "180x180" }
+  ]
+}

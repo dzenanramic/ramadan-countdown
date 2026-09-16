@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64"
+     role="img" aria-label="Ramazansko odbrojavanje">
+  <title>Ramazansko odbrojavanje</title>
+  <!-- Podloga: tamnoplava kartica komponente -->
+  <rect width="64" height="64" rx="12" fill="#101728"/>
+  <!-- Mjedena traka s lijeve ivice kartice -->
+  <rect x="0" y="0" width="5" height="64" rx="2.5" fill="#d3af5e"/>
+  <!-- Mreža jedinica 2x2; prvo polje (dani) je mjedeno -->
+  <rect x="16" y="15" width="14" height="14" rx="2.5" fill="#d3af5e"/>
+  <rect x="35" y="15" width="14" height="14" rx="2.5" fill="#39445e"/>
+  <rect x="16" y="35" width="14" height="14" rx="2.5" fill="#39445e"/>
+  <rect x="35" y="35" width="14" height="14" rx="2.5" fill="#39445e"/>
+</svg>

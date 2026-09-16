@@ -1,0 +1,61 @@
+<!doctype html><html><head><meta charset="utf-8">
+<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+<link rel="stylesheet" href="bundle.css">
+<script src="react.development.js"></script>
+<script src="react-dom.development.js"></script>
+<script src="react-dom-server-legacy.browser.development.js"></script>
+</head><body>
+<div id="root" style="max-width:760px;margin:40px auto;padding:0 20px;
+  font-family:ui-sans-serif,-apple-system,'Segoe UI',Inter,Roboto,Helvetica,Arial,sans-serif"></div>
+<script src="bundle.js"></script>
+<script>
+window.__RESULT__ = {};
+(function(){
+  var R = window.__RESULT__;
+  var props = { staticDays: 144 };
+  var ssrHtml = ReactDOMServer.renderToString(React.createElement(RamadanCountdown, props));
+  R.ssr = {
+    length: ssrHtml.length,
+    hasRcJsAttr: /data-rc-js=/.test(ssrHtml),
+    staticDaysShown: (ssrHtml.match(/class="rc-num"[^>]*>([^<]*)</g)||[]).map(function(s){return s.replace(/.*>/,'');}),
+    staticDate: (ssrHtml.match(/Ramazan po[\s\S]{0,260}?<\/strong>[\s\S]{0,90}?\./)||[''])[0].replace(/<[^>]+>/g,' ').replace(/\s+/g,' ').trim()
+  };
+  var errors = [], orig = console.error;
+  console.error = function(){ errors.push(Array.prototype.join.call(arguments,' ').slice(0,220)); orig.apply(console,arguments); };
+  var dom = document.getElementById('root');
+  dom.innerHTML = ssrHtml;
+  ReactDOM.hydrateRoot(dom, React.createElement(RamadanCountdown, props));
+  setTimeout(function(){
+    console.error = orig;
+    var q = function(s){ var e = dom.querySelector(s); return e ? e.textContent.trim() : null; };
+    var disp = function(s){ var e = dom.querySelector(s); return e ? getComputedStyle(e).display : null; };
+    R.hydrationErrors = errors;
+    R.live = {
+      digits: { d:q('.rc-live [data-rc="d"]'), h:q('.rc-live [data-rc="h"]'),
+                m:q('.rc-live [data-rc="m"]'), s:q('.rc-live [data-rc="s"]') },
+      state:q('[data-rc="state"]'), hijri:q('[data-rc="hijri"]'), hijriAr:q('[data-rc="hijri-ar"]'),
+      caption:q('[data-rc="caption"]'),
+      prev:q('[data-rc="prev"]'), next:q('[data-rc="next"]'), pct:q('[data-rc="pct"]'),
+      sr:q('[data-rc="sr"]'),
+      liveDisplay: disp('.rc-live'), staticDisplay: disp('.rc-static'),
+      rcJs: dom.querySelector('section').getAttribute('data-rc-js'),
+      ariaNow: dom.querySelector('[role=progressbar]').getAttribute('aria-valuenow'),
+      ariaText: dom.querySelector('[role=progressbar]').getAttribute('aria-valuetext'),
+      fillWidth: dom.querySelector('.rc-fill').style.width,
+      cardBg: getComputedStyle(dom.querySelector('.rc-card')).backgroundColor,
+      unitsOnRow: (function(){ var bs=[].map.call(dom.querySelectorAll('.rc-live .rc-num'), function(e){return e.getBoundingClientRect().bottom.toFixed(0);}); return bs.join(','); })(),
+      hOverflow: document.documentElement.scrollWidth > document.documentElement.clientWidth
+    };
+    // live ticking: seconds must change on their own
+    var s1 = q('.rc-live [data-rc="s"]');
+    setTimeout(function(){
+      R.tick = { from: s1, to: q('.rc-live [data-rc="s"]') };
+      R.ctaLinks = [...dom.querySelectorAll('#ramadan-countdown a[href]')].map(a=>a.href);
+      R.ctaNewTab = [...dom.querySelectorAll('#ramadan-countdown a[target="_blank"]')].every(a=>(a.rel||'').includes('noopener'));
+      R.selects = dom.querySelectorAll('select').length;
+      R.captionAltRemoved = dom.querySelectorAll('[data-rc="caption-alt"]').length;
+      window.__DONE__ = true;
+    }, 400);
+  }, 2200);
+})();
+</script></body></html>

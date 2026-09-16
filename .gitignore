@@ -1,0 +1,19 @@
+# Sistemski
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editori
+.vscode/
+.idea/
+*.swp
+*~
+
+# Zavisnosti i build artefakti
+node_modules/
+dist/
+build/
+*.tsbuildinfo
+
+# Izvještaji testova / pokrivenost
+coverage/
